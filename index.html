@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse Collection</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bible Verse Collection</h1>
+            <p class="subtitle">Discover and share verses by category</p>
+        </header>
+        
+        <main class="categories-container">
+            <div id="categories-list">
+                <!-- Categories will be loaded dynamically -->
+                <div class="loading">Loading categories...</div>
+            </div>
+            
+            <button class="category-button add-category-btn" onclick="goToAddCategory()">
+                + Add Category
+            </button>
+        </main>
+    </div>
+    
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

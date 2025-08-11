@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bible Verse Collection - Add Verse</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bible Verse Collection</h1>
+            <p class="subtitle">Add a new verse</p>
+        </header>
+        
+        <main class="form-container">
+            <h2 class="form-title">Add Verse to <span id="category-name">Category</span></h2>
+            
+            <form id="add-verse-form" onsubmit="handleSubmit(event)">
+                <div class="form-group">
+                    <label for="verse-reference">Verse Location *</label>
+                    <input 
+                        type="text" 
+                        id="verse-reference" 
+                        name="verseReference" 
+                        required 
+                        placeholder="e.g., Romans 5:12"
+                        maxlength="50"
+                    >
+                </div>
+                
+                <div class="form-group">
+                    <label for="verse-text">Type Verse *</label>
+                    <textarea 
+                        id="verse-text" 
+                        name="verseText" 
+                        required 
+                        placeholder="Enter the full verse text here..."
+                        rows="4"
+                        maxlength="1000"
+                    ></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="verse-image">Add Image (Optional)</label>
+                    <input 
+                        type="file" 
+                        id="verse-image" 
+                        name="verseImage" 
+                        accept="image/*"
+                        onchange="handleImageUpload(this, 'image-preview')"
+                    >
+                    <img id="image-preview" style="display: none; max-width: 200px; margin-top: 10px; border-radius: 5px;">
+                </div>
+                
+                <div class="button-group" style="margin-top: 30px;">
+                    <button type="button" class="action-button btn-back" onclick="goBack()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="submit-button" id="submit-btn">
+                        Add Verse
+                    </button>
+                </div>
+            </form>
+        </main>
+    </div>
+    
+    <script src="js/database.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/add-verse.js"></script>
+</body>
+</html>
