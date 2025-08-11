@@ -37,7 +37,7 @@ A simple, clean web application for browsing and sharing Bible verses organized 
 
 ## Live Demo
 
-Visit the live website at: [Your GitHub Pages URL will go here]
+Visit the live website at: https://bollinjk.github.io/bible-verse-collection/
 
 ## Contributing
 
