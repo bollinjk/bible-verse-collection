@@ -133,3 +133,55 @@ function sanitizeInput(text) {
     div.textContent = text;
     return div.innerHTML;
 }
+
+// Data import/export functions
+function exportData() {
+    try {
+        const result = db.exportData();
+        if (!result.success) {
+            showMessage('Failed to export data: ' + result.error, 'error');
+        } else {
+            showMessage('Data exported successfully! Check your downloads folder.', 'success');
+        }
+    } catch (error) {
+        showMessage('Error exporting data: ' + error.message, 'error');
+    }
+}
+
+async function importData(input) {
+    try {
+        if (!input.files || input.files.length === 0) {
+            showMessage('No file selected', 'error');
+            return;
+        }
+        
+        const file = input.files[0];
+        if (!file.name.endsWith('.json')) {
+            showMessage('Please select a .json file', 'error');
+            return;
+        }
+        
+        // Show loading message
+        showMessage('Importing data...', 'info');
+        
+        const result = await db.importData(file);
+        
+        if (!result.success) {
+            showMessage('Failed to import data: ' + result.error, 'error');
+            return;
+        }
+        
+        showMessage('Data imported successfully! Refreshing...', 'success');
+        
+        // Clear the file input
+        input.value = '';
+        
+        // Refresh the page after a short delay
+        setTimeout(() => {
+            window.location.reload();
+        }, 1500);
+        
+    } catch (error) {
+        showMessage('Error importing data: ' + error.message, 'error');
+    }
+}

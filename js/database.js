@@ -4,6 +4,9 @@ class Database {
         // For now, we'll use localStorage as a simple solution
         // This can be easily upgraded to Supabase later
         this.initializeLocalStorage();
+        
+        // Data version for compatibility
+        this.dataVersion = "1.0";
     }
 
     initializeLocalStorage() {
@@ -202,6 +205,83 @@ class Database {
             reader.onerror = () => reject({ data: null, error: 'Failed to read image' });
             reader.readAsDataURL(file);
         });
+    }
+    
+    // Data persistence methods
+    
+    // Export all data to a JSON file for backup/transfer
+    exportData() {
+        try {
+            const categories = JSON.parse(localStorage.getItem('categories') || '[]');
+            const verses = JSON.parse(localStorage.getItem('verses') || '[]');
+            
+            const exportData = {
+                version: this.dataVersion,
+                timestamp: new Date().toISOString(),
+                data: {
+                    categories,
+                    verses
+                }
+            };
+            
+            const dataStr = JSON.stringify(exportData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            
+            const link = document.createElement('a');
+            link.href = url;
+            const dateStr = new Date().toISOString().slice(0, 10);
+            link.download = `bible-verse-collection-${dateStr}.json`;
+            
+            // Trigger download
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            
+            return { success: true, error: null };
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
+    }
+    
+    // Import data from a JSON file
+    async importData(jsonFile) {
+        try {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                
+                reader.onload = (e) => {
+                    try {
+                        const importData = JSON.parse(e.target.result);
+                        
+                        // Basic validation
+                        if (!importData.data || !importData.data.categories || !importData.data.verses) {
+                            resolve({ success: false, error: 'Invalid data format in file' });
+                            return;
+                        }
+                        
+                        // Store the imported data
+                        localStorage.setItem('categories', JSON.stringify(importData.data.categories));
+                        localStorage.setItem('verses', JSON.stringify(importData.data.verses));
+                        
+                        // Reset viewed verses
+                        localStorage.setItem('viewedVerses', JSON.stringify({}));
+                        
+                        resolve({ success: true, error: null });
+                    } catch (error) {
+                        resolve({ success: false, error: 'Failed to parse import file' });
+                    }
+                };
+                
+                reader.onerror = () => {
+                    resolve({ success: false, error: 'Failed to read import file' });
+                };
+                
+                reader.readAsText(jsonFile);
+            });
+        } catch (error) {
+            return { success: false, error: error.message };
+        }
     }
 }
 
