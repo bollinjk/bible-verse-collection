@@ -1,6 +1,7 @@
 // Add category page functionality
 document.addEventListener('DOMContentLoaded', function() {
-    if (window.location.pathname.endsWith('add-category.html')) {
+    // Check if we're on the add category page by looking for the category-name input
+    if (document.getElementById('category-name')) {
         // Focus on the category name input
         document.getElementById('category-name').focus();
     }

@@ -3,7 +3,8 @@ let currentCategoryId = null;
 let currentCategory = null;
 
 document.addEventListener('DOMContentLoaded', async function() {
-    if (window.location.pathname.endsWith('category.html')) {
+    // Check if we're on the category page by looking for the category-title element
+    if (document.getElementById('category-title')) {
         currentCategoryId = getURLParameter('id');
         
         if (!currentCategoryId) {

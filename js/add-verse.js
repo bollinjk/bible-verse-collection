@@ -3,7 +3,8 @@ let currentCategoryId = null;
 let currentCategory = null;
 
 document.addEventListener('DOMContentLoaded', async function() {
-    if (window.location.pathname.endsWith('add-verse.html')) {
+    // Check if we're on the add verse page by looking for the verse-reference input
+    if (document.getElementById('verse-reference')) {
         currentCategoryId = getURLParameter('categoryId');
         
         if (!currentCategoryId) {

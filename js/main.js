@@ -1,6 +1,7 @@
 // Main JavaScript for homepage functionality
 document.addEventListener('DOMContentLoaded', async function() {
-    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+    // Check if we're on the homepage by looking for the categories-list element
+    if (document.getElementById('categories-list')) {
         await loadCategories();
     }
 });
